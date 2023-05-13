@@ -40,7 +40,6 @@ ui <- fluidPage(
                fileInput("SNV",label = "Fichero para SNVs, MNVs e INDELs", multiple = F, accept = c(".tsv")),
                fileInput("CNV",label = "Fichero para CNVs", multiple = F, accept = c(".tsv")),
                br(),
-               textOutput("proc")
               ),
         
         column(6,
@@ -51,7 +50,6 @@ ui <- fluidPage(
                textInput("tumor", label = "Tipo de tumor"),
                textInput("localizacion", label = "LocalizaciÃ³n"),
                textInput("%tum", label = "Porcentaje de cÃ©lulas tumorales"),
-               textOutput("proc_her")
                ),
                ),
 fluidRow(
@@ -64,17 +62,17 @@ actionButton("run", label= "PriorizaciÃ³n de variantes")
       title = "Resultados",
       br(),
       #Descarga resultados
-      downloadButton("desc_res_snv", label = "Guardar resultado (SNVs, MNVs e INDELs)"),
-      downloadButton("desc_res_cnv", label = "Guardar resultado (CNVs)"),
+      downloadButton("desc_res_SNV", label = "Guardar resultado (SNVs, MNVs e INDELs)"),
+      downloadButton("desc_res_CNV", label = "Guardar resultado (CNVs)"),
       br(), br(),
       #Tablas Resultados
-      textOutput("res_snv"),
+      textOutput("res_SNV"),
       br(),
-      dataTableOutput("resultado.snv"),
+      dataTableOutput("resultado.SNV"),
       br(),
-      textOutput("res_cnv"),
+      textOutput("res_CNV"),
       br(),
-      dataTableOutput("resultado.cnv"),
+      dataTableOutput("resultado.CNV"),
       br(),
     ),
 
@@ -118,7 +116,7 @@ server <- function(input, output, session) {
 ##Filtros
 observeEvent(input$run,{
   {
-    output$res_SNV <- renderText("Resultado de la priorización para SNVs, MNVs e INDELS")
+    output$res_SNV <- renderText("Resultado de la priorizaci?n para SNVs, MNVs e INDELS")
     res_SNV<- reactive({
       SNV_variants <- tsvData %>%
       filter(Filter == "PASS") %>%
@@ -133,7 +131,7 @@ observeEvent(input$run,{
       return(SNV_variants)})
     output$resultado.SNV<-DT::renderDataTable(DT::datatable({res_SNV()}))
     
-    output$res_CNV <- renderText("Resultado de la priorización para CNVs")
+    output$res_CNV <- renderText("Resultado de la priorizaci?n para CNVs")
     res_CNV<-reactive({
       CNV_variants <- tsvData %>%
       filter(`CNV P-Value`<=0.05) %>%
@@ -144,16 +142,16 @@ observeEvent(input$run,{
 }
 
 #BOTONES DESCARGA 
-output$desc_res_snv <- downloadHandler(
-  filename = "Resultado_priorización_SNVs.csv",
+output$desc_res_SNV <- downloadHandler(
+  filename = "Resultado_priorizaci?n_SNVs.csv",
   content =  function(file){
   write.csv2(res_SNV() , file)
     },
   contentType = "text/plain"
   )
   
-output$desc_res_cnv <- downloadHandler(
-  filename = "Resultado_priorización_CNVs.csv",
+output$desc_res_CNV <- downloadHandler(
+  filename = "Resultado_priorizaci?n_CNVs.csv",
   content =  function(file){
   write.csv2(res_CNV() , file)
     },
