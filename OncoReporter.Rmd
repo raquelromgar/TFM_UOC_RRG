@@ -1,0 +1,71 @@
+---
+title: "OncoReporter"
+subtitle: 'Informe de análisis'
+author: "Raquel Romero Garcia"
+date: '`r format(Sys.Date(),"%e de %B, %Y")`' 
+output:
+  pdf_document:
+    keep_tex: no
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  html_document:
+    theme: united
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+params:
+  Sexo: NA
+  Edad: NA
+  Tipo_de_tumor: NA
+  Localización_del_tumor: NA
+  Porcentaje_de_células_tumorales: NA
+  SNV: 'r filtered_data_snv'
+  CNV: 'r filtered_data_cnv'
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NULL, cache=TRUE)
+```
+
+## INFORMACIÓN GENERAL
+
+```{r}
+Sexo: 'params$sexo' 
+edad: 'params$Edad'
+tipo_tumor: 'params$Tipo_de _tumor'
+Localización: 'params$Localización_del_tumor'
+céls_tum: 'params$Porcentaje_de_células_tumorales'
+```
+
+## CARACTERÍSTICAS DEL ANÁLISIS
+
+Seuenciador: Ion Torrent
+Material secuenciado: FFPE
+Método de selección: Amplificación
+Tipo de carrera: Single End
+Panel: Oncomine Focus Assay
+
+## LISTA DE VARIANTES DETECTADAS DE TIPO SNV, MNV O INDELS
+```{r}
+'r params$SNV'
+```
+
+
+## LISTA DE VARIANTES DETECTADAS DE TIPO CNV
+```{r}
+'r params$CNV'
+```
+
+
+## NGS - GENES (30)
+
+| ATM | BARD1 | BRCA1 | BRCA2 | BRIP1 | CDK12 | CHEK1 | CHEK2 |
+| FANCD2 | FANCD2OS | FANCL | KRAS | MRE11A | NBN | PALB2 | PIK3CA |
+| POLD1 | POLE | PPP2R2A | PTEN | RAD50 | RAD51 | RAD51B | RAD51C |
+| RAD51D | RAD52 | RAD54L | TP53 | VRK2 | XRCC2 |
+
+
+
+
