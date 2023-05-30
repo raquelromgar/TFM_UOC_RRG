@@ -1,27 +1,20 @@
 ---
 title: "OncoReporter"
-subtitle: 'Informe de análisis'
+subtitle: 'Informe de variantes'
 author: "Raquel Romero Garcia"
 date: '`r format(Sys.Date(),"%e de %B, %Y")`' 
-output:
+output: 
   pdf_document:
-    keep_tex: no
-    number_sections: yes
-    toc: yes
-    toc_depth: 3
-  html_document:
-    theme: united
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
+    keep_tex: yes
 params:
-  Sexo: NA
-  Edad: NA
-  Tipo_de_tumor: NA
-  Localización_del_tumor: NA
-  Porcentaje_de_células_tumorales: NA
-  SNV: 'r filtered_data_snv'
-  CNV: 'r filtered_data_cnv'
+  sexo: NA
+  edad: NA
+  tumor: NA
+  localizacion: NA
+  cels_tum: NA
+  filtered_data_snv: NULL
+  filtered_data_cnv: NULL
+  clasif_variantes: NULL
   
 ---
 
@@ -32,11 +25,11 @@ knitr::opts_chunk$set(echo = TRUE, comment = NULL, cache=TRUE)
 ## INFORMACIÓN GENERAL
 
 ```{r}
-Sexo: 'params$sexo' 
-edad: 'params$Edad'
-tipo_tumor: 'params$Tipo_de _tumor'
-Localización: 'params$Localización_del_tumor'
-céls_tum: 'params$Porcentaje_de_células_tumorales'
+Sexo: 'r params$sexo' 
+Edad: 'r params$edad'
+Tipo_de_tumor: 'r params$tumor'
+Localización: 'r params$localizacion'
+Porcentaje_de_células_tumorales: 'r params$cels_tum'
 ```
 
 ## CARACTERÍSTICAS DEL ANÁLISIS
@@ -49,15 +42,24 @@ Panel: Oncomine Focus Assay
 
 ## LISTA DE VARIANTES DETECTADAS DE TIPO SNV, MNV O INDELS
 ```{r}
-'r params$SNV'
+'r params$filtered_data_snv'
+
+knitr::kable(params$filtered_data_snv)
+knitr::kable(filtered_data_snv, format = 'markdown')
 ```
 
 
 ## LISTA DE VARIANTES DETECTADAS DE TIPO CNV
 ```{r}
-'r params$CNV'
+'r params$filtered_data_cnv'
+knitr::kable(filtered_data_cnv, format = 'markdown')
 ```
 
+## TABLA DE CLASIFICACIÓN
+```{r}
+'r params$clasif_variantes'
+knitr::kable(clasif_variantes, format = 'markdown')
+```
 
 ## NGS - GENES (30)
 
@@ -65,7 +67,3 @@ Panel: Oncomine Focus Assay
 | FANCD2 | FANCD2OS | FANCL | KRAS | MRE11A | NBN | PALB2 | PIK3CA |
 | POLD1 | POLE | PPP2R2A | PTEN | RAD50 | RAD51 | RAD51B | RAD51C |
 | RAD51D | RAD52 | RAD54L | TP53 | VRK2 | XRCC2 |
-
-
-
-
