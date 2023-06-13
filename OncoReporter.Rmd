@@ -1,69 +1,90 @@
 ---
+runtime: shiny
 title: "OncoReporter"
 subtitle: 'Informe de variantes'
 author: "Raquel Romero Garcia"
 date: '`r format(Sys.Date(),"%e de %B, %Y")`' 
-output: 
-  pdf_document:
-    keep_tex: yes
+output:
+ prettydoc::html_pretty:
+    theme: cayman
 params:
-  sexo: NA
-  edad: NA
-  tumor: NA
-  localizacion: NA
-  cels_tum: NA
-  filtered_data_snv: NULL
-  filtered_data_cnv: NULL
-  clasif_variantes: NULL
-  
+  sexo:
+    label: "Selecciona el sexo"
+    value: NA
+    input: select
+    choices: [Masculino, Femenino]
+  edad:
+    label: "Edad"
+    value: NA
+    input: text
+  tumor: 
+    label: "Tipo de tumor"
+    value: NA
+    input: text
+  localizacion:
+    label: "Localización"
+    value: NA
+    input: text
+  cels_tum: 
+    label: "Porcentaje de células tumorales"
+    value: NA
+    input: text
+  datos_clasificados: 
+    value: datos_clasificados
+
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, comment = NULL, cache=TRUE)
+knitr::opts_chunk$set(echo = FALSE, comment = NULL, cache=TRUE, warning = FALSE)
 ```
 
-## INFORMACIÓN GENERAL
+### INFORMACIÓN GENERAL
 
 ```{r}
-Sexo: 'r params$sexo' 
-Edad: 'r params$edad'
-Tipo_de_tumor: 'r params$tumor'
-Localización: 'r params$localizacion'
-Porcentaje_de_células_tumorales: 'r params$cels_tum'
+datos <- data.frame(c(paste0("Sexo: ", params$sexo), paste0("Edad: ", params$edad), ""),
+                    c(paste0("Tipo de Tumor: ", params$tumor), paste0("Localización: ", params$localizacion),
+                    paste0("Porcentaje de Células Tumorales: ",  params$cels_tum)))
+
+# Cambiar los nombres de las columnas
+colnames(datos) <- c("Paciente", "Tumor")
+
+# Crear la tabla con el paquete kableExtra
+knitr::kable(datos)
 ```
 
-## CARACTERÍSTICAS DEL ANÁLISIS
 
-Seuenciador: Ion Torrent
-Material secuenciado: FFPE
-Método de selección: Amplificación
-Tipo de carrera: Single End
-Panel: Oncomine Focus Assay
+### CARACTERÍSTICAS DEL ANÁLISIS
 
-## LISTA DE VARIANTES DETECTADAS DE TIPO SNV, MNV O INDELS
 ```{r}
-'r params$filtered_data_snv'
+parametros <- data.frame(c("Secuenciador: Ion Torrent", "Material secuenciado: FFPE", ""),
+                    c("Método de selección: Amplificación", "Tipo de carrera: _Single End_", 
+                      "Panel: _Oncomine Focus Assay_"))
 
-knitr::kable(params$filtered_data_snv)
-knitr::kable(filtered_data_snv, format = 'markdown')
+# Cambiar los nombres de las columnas
+colnames(parametros) <- c("", "")
+knitr::kable(parametros)
 ```
 
 
-## LISTA DE VARIANTES DETECTADAS DE TIPO CNV
+
+### LISTA DE VARIANTES DETECTADAS 
+
+
 ```{r}
-'r params$filtered_data_cnv'
-knitr::kable(filtered_data_cnv, format = 'markdown')
+knitr::kable(params$datos_clasificados)
+
+
 ```
 
-## TABLA DE CLASIFICACIÓN
+
+
+### NGS - GENES EN EL PANEL (30)
+
 ```{r}
-'r params$clasif_variantes'
-knitr::kable(clasif_variantes, format = 'markdown')
+Genes <- c ("ATM", "BARD1", "BRCA1", "BRCA2", "BRIP1", "CDK12", "CHEK1", "CHEK2", "FANCD2", "FANCD2OS", "FANCL", "KRAS", "MRE11A", "NBN", "PALB2", "PIK3CA", "POLD1", "POLE", "PPP2R2A", "PTEN", "RAD50", "RAD51", "RAD51B", "RAD51C", "RAD51D", "RAD52", "RAD54L", "TP53", "VRK2", "XRCC2")
+
+Genes_matriz <- matrix(Genes, nrow = 6, ncol = 5, byrow = TRUE)
+
+# Imprimir la matriz utilizando kable
+knitr::kable(Genes_matriz)
 ```
-
-## NGS - GENES (30)
-
-| ATM | BARD1 | BRCA1 | BRCA2 | BRIP1 | CDK12 | CHEK1 | CHEK2 |
-| FANCD2 | FANCD2OS | FANCL | KRAS | MRE11A | NBN | PALB2 | PIK3CA |
-| POLD1 | POLE | PPP2R2A | PTEN | RAD50 | RAD51 | RAD51B | RAD51C |
-| RAD51D | RAD52 | RAD54L | TP53 | VRK2 | XRCC2 |
