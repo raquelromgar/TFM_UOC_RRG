@@ -48,9 +48,11 @@ datos <- data.frame(c(paste0("Sexo: ", params$sexo), paste0("Edad: ", params$eda
 # Cambiar los nombres de las columnas
 colnames(datos) <- c("Paciente", "Tumor")
 
-# Crear la tabla con el paquete kableExtra
+# Crear la tabla con el paquete kable
 knitr::kable(datos)
 ```
+
+
 
 
 ### CARACTERÍSTICAS DEL ANÁLISIS
@@ -62,8 +64,10 @@ parametros <- data.frame(c("Secuenciador: Ion Torrent", "Material secuenciado: F
 
 # Cambiar los nombres de las columnas
 colnames(parametros) <- c("", "")
+
 knitr::kable(parametros)
 ```
+
 
 
 
@@ -72,18 +76,21 @@ knitr::kable(parametros)
 
 ```{r}
 knitr::kable(params$datos_clasificados)
-
-
 ```
 
 
 
-### NGS - GENES EN EL PANEL (30)
+### NGS - GENES EN EL PANEL (46)
 
 ```{r}
-Genes <- c ("ATM", "BARD1", "BRCA1", "BRCA2", "BRIP1", "CDK12", "CHEK1", "CHEK2", "FANCD2", "FANCD2OS", "FANCL", "KRAS", "MRE11A", "NBN", "PALB2", "PIK3CA", "POLD1", "POLE", "PPP2R2A", "PTEN", "RAD50", "RAD51", "RAD51B", "RAD51C", "RAD51D", "RAD52", "RAD54L", "TP53", "VRK2", "XRCC2")
+Genes <- c ("AKT1", "ALK", "APC", "AR", "BIRC2", "BRAF", "BRCA1", "CCND1",  
+"CDK4", "CTNNB1", "DCUN1D1", "DDR2", "EGFR", "ERBB2", "ERBB3", "ERBB4", 
+"ESR1", "FGFR1", "FGFR2", "FGFR3", "FGFR4", "GNA11", "GNAQ", "HRAS", "IDH1", 
+"IDH2", "JAK1", "JAK2", "JAK3", "KIT", "KRAS", "MAP2K1", "MAP2K2", "MED12", "MET",
+"MTOR", "MYC", "MYCN", "NF1", "NRAS", "PDGFRA", "PIK3CA", "RAF1", "RET", "ROS1",
+"SMO", "", "", "", "")
 
-Genes_matriz <- matrix(Genes, nrow = 6, ncol = 5, byrow = TRUE)
+Genes_matriz <- matrix(Genes, nrow = 10, ncol = 5, byrow = TRUE)
 
 # Imprimir la matriz utilizando kable
 knitr::kable(Genes_matriz)
